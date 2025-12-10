@@ -12,12 +12,11 @@ const chatRoutes = require("./routes/chat");
 
 const app = express();
 const server = http.createServer(app);
+app.options('*', cors()); // Enable pre-flight across-the-board
 const io = new Server(server, {
   cors: {
     origin: [
-      // "http://localhost:3000",
-      // "http://192.168.0.4:3000",
-      "https://chat-app-frontend-gljd.onrender.com/"
+         "https://chat-app-frontend-gljd.onrender.com/"
     ],
     methods: ["GET", "POST"],
     credentials: true
@@ -28,8 +27,6 @@ const io = new Server(server, {
 // Middleware
 app.use(cors({
   origin: [
-    // "http://localhost:3000",
-    // "http://192.168.0.4:3000",
     "https://chat-app-frontend-gljd.onrender.com/"
   ],
   methods: ["GET", "POST"],
