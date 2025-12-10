@@ -16,23 +16,31 @@ app.options('*', cors()); // Enable pre-flight across-the-board
 const io = new Server(server, {
   cors: {
     origin: [
-         "https://chat-app-frontend-gljd.onrender.com/"
+         "https://chat-app-frontend-gljd.onrender.com"
     ],
     methods: ["GET", "POST"],
     credentials: true
   },
-  transports: ["websocket"], // IMPORTANT on Render
+  transports: ["websocket", "polling"], // IMPORTANT on Render
 });
 
 // Middleware
 app.use(cors({
   origin: [
-    "https://chat-app-frontend-gljd.onrender.com/"
+    "https://chat-app-frontend-gljd.onrender.com"
   ],
   methods: ["GET", "POST"],
   credentials: true
 }));
 app.use(express.json());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://chat-app-frontend-gljd.onrender.com");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  next();
+});
+
 
 // Attach routes
 app.use("/auth", authRoutes);
